@@ -1,25 +1,18 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
-```{r}
+
+```r
 fileUrl <- "https://d396qusza40orc.cloudfront.net/repdata/data/activity.zip"
 download.file(fileUrl, destfile="./RepResActivity.zip")
 unzip("RepResActivity.zip")
 activity <- read.csv("activity.csv")
-str(activity)
 ```
+
 
 
 ## What is mean total number of steps taken per day?
-```{r}
-# library(ggplot2)
-```
 
 
 
