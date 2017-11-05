@@ -19,9 +19,13 @@ activity$date <- as.Date(activity$date, "%Y-%m-%d")
 
 ## What is mean total number of steps taken per day?
 ```{r}
-library(ggplot2)
-ggplot(data = activity, aes(x=date, y=steps)) + geom_bar(stat = "identity")
-# notice warning about missing values - we are going to take care of that later
+# aggregating steps per day for mean and median calculation
+dailysteps <- aggregate(activity$steps, by=list(Date = activity$date), sum)
+colnames(dailysteps)[2] <- "sumofsteps"
+
+hist(dailysteps$sumofsteps) # histogram of daily sum of steps
+mean(dailysteps$sumofsteps, na.rm = TRUE) # mean of daily steps
+median(dailysteps$sumofsteps, na.rm = TRUE) # median of daily steps
 ```
 
 
