@@ -12,13 +12,16 @@ fileUrl <- "https://d396qusza40orc.cloudfront.net/repdata/data/activity.zip"
 download.file(fileUrl, destfile="./RepResActivity.zip")
 unzip("RepResActivity.zip")
 activity <- read.csv("activity.csv")
-str(activity)
+activity$date <- as.Date(activity$date, "%Y-%m-%d")
+# str(activity) # just to look at the data structure
 ```
 
 
 ## What is mean total number of steps taken per day?
 ```{r}
-# library(ggplot2)
+library(ggplot2)
+ggplot(data = activity, aes(x=date, y=steps)) + geom_bar(stat = "identity")
+# notice warning about missing values - we are going to take care of that later
 ```
 
 
