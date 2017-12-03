@@ -21,7 +21,7 @@ str(activity)
 ```
 
 
-## What is mean total number of steps taken per day?
+## What is the mean total number of steps taken per day?
 
 ```r
 # aggregating steps per day for mean and median calculation

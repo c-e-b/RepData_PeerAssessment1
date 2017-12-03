@@ -1,5 +1,6 @@
 ---
 title: "Reproducible Research: Peer Assessment 1"
+subtitle: Carl Ebbinghaus, Dec 3rd, 2017
 output: 
   html_document:
     keep_md: true
@@ -18,7 +19,7 @@ str(activity)
 ```
 
 
-## What is mean total number of steps taken per day?
+## What is the mean total number of steps taken per day?
 ```{r}
 # aggregating steps per day for mean and median calculation
 dailysteps <- aggregate(activity$steps, by=list(Date = activity$date), sum)

@@ -116,6 +116,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Reproducible Research: Peer Assessment 1</h1>
+<h3 class="subtitle"><em>Carl Ebbinghaus, Dec 3rd, 2017</em></h3>
 
 </div>
 
@@ -134,8 +135,8 @@ str(activity)</code></pre>
 ##  $ date    : Date, format: &quot;2012-10-01&quot; &quot;2012-10-01&quot; ...
 ##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...</code></pre>
 </div>
-<div id="what-is-mean-total-number-of-steps-taken-per-day" class="section level2">
-<h2>What is mean total number of steps taken per day?</h2>
+<div id="what-is-the-mean-total-number-of-steps-taken-per-day" class="section level2">
+<h2>What is the mean total number of steps taken per day?</h2>
 <pre class="r"><code># aggregating steps per day for mean and median calculation
 dailysteps &lt;- aggregate(activity$steps, by=list(Date = activity$date), sum)
 colnames(dailysteps)[2] &lt;- &quot;sumofdailysteps&quot;

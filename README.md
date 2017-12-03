@@ -1,5 +1,10 @@
 ## Introduction
 
+//*
+### if you want to you can look at the report here: https://c-e-b.github.io/RepData_PeerAssessment1/PA1_template.html
+*//
+
+
 It is now possible to collect a large amount of data about personal
 movement using activity monitoring devices such as a
 [Fitbit](http://www.fitbit.com), [Nike
