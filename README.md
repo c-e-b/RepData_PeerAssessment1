@@ -1,7 +1,7 @@
 ## Introduction
 
 //*
-### if you want to you can look at the report here: https://c-e-b.github.io/RepData_PeerAssessment1/PA1_template.html
+if you want to you can look at the report here: https://c-e-b.github.io/RepData_PeerAssessment1/PA1_template.html
 *//
 
 
