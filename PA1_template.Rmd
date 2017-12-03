@@ -10,10 +10,11 @@ output:
 ```{r}
 fileUrl <- "https://d396qusza40orc.cloudfront.net/repdata/data/activity.zip"
 download.file(fileUrl, destfile="./RepResActivity.zip")
-unzip("RepResActivity.zip")
+unzip("./RepResActivity.zip")
 activity <- read.csv("activity.csv")
 activity$date <- as.Date(activity$date, "%Y-%m-%d")
-# str(activity) # just to look at the data structure
+# looking at the structure:
+str(activity)
 ```
 
 
@@ -21,21 +22,65 @@ activity$date <- as.Date(activity$date, "%Y-%m-%d")
 ```{r}
 # aggregating steps per day for mean and median calculation
 dailysteps <- aggregate(activity$steps, by=list(Date = activity$date), sum)
-colnames(dailysteps)[2] <- "sumofsteps"
+colnames(dailysteps)[2] <- "sumofdailysteps"
 
-hist(dailysteps$sumofsteps) # histogram of daily sum of steps
-mean(dailysteps$sumofsteps, na.rm = TRUE) # mean of daily steps
-median(dailysteps$sumofsteps, na.rm = TRUE) # median of daily steps
+hist(dailysteps$sumofdailysteps, main = "histogram of sum of number of daily steps")
+mean(dailysteps$sumofdailysteps, na.rm = TRUE) # mean of daily steps
+median(dailysteps$sumofdailysteps, na.rm = TRUE) # median of daily steps
 ```
 
 
-
 ## What is the average daily activity pattern?
-
+```{r}
+meanintervsteps <- aggregate(activity$steps, by=list(interval = activity$interval), mean, na.rm = TRUE)
+colnames(meanintervsteps)[2] <- "meanofintervsteps"
+plot(x=meanintervsteps$interval, y=meanintervsteps$meanofintervsteps, type = 'l')
+max(meanintervsteps)
+which.max(meanintervsteps$meanofintervsteps)
+meanintervsteps[104,]
+```
+The maximum is inside row 104, so it's the interval 835 -> looking at the plot this seems to be correct
 
 
 ## Imputing missing values
+```{r}
+impactivity <- activity # new data set which will get imputed data
+sum(is.na(impactivity$steps)) # checking how many NAs there are right now
+for(i in 1:(nrow(impactivity))) { # replacing each NA with the mean of the corresponding interval
+    if(is.na(impactivity$steps[i])) {
+        impactivity$steps[i] = meanintervsteps$meanofintervsteps[meanintervsteps$interval==impactivity$interval[i]]
+    }
+}
+# check if an na is left
+sum(is.na(impactivity$steps))
 
+#### Recalculating the daily steps, the histogram and mean and median for the data set with imputed data
+impdailysteps <- aggregate(impactivity$steps, by=list(Date = impactivity$date), sum)
+colnames(impdailysteps)[2] <- "sumofdailysteps"
+
+hist(impdailysteps$sumofdailysteps, main = "histogram of sum of number of daily steps")
+
+mean(dailysteps$sumofdailysteps, na.rm = TRUE) # before imputing
+median(dailysteps$sumofdailysteps, na.rm = TRUE) # before imputing
+mean(impdailysteps$sumofdailysteps, na.rm = TRUE) # after imputing
+median(impdailysteps$sumofdailysteps, na.rm = TRUE) # after imputing
+```
+The means stay the same - median changes a bit and is now equal to mean
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+```{r}
+impactivity$daytype <- weekdays(impactivity$date)
+for(i in 1:nrow(impactivity)) {
+    if(impactivity$daytype[i] == "Samstag" || impactivity$daytype[i] == "Sonntag") {
+        impactivity$daytype[i] <- "weekend"
+    } else {
+        impactivity$daytype[i] <- "weekday"
+    }
+}
+impactivity$daytype <- as.factor(impactivity$daytype)
+
+impmeanintervsteps <- aggregate(steps ~ interval + daytype, impactivity, mean)
+library(ggplot2)
+qplot(x = interval, y = steps, data = impmeanintervsteps, geom = ("line")) + facet_grid(~ daytype)
+```
